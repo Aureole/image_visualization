@@ -175,6 +175,10 @@
 				RelativePath=".\slvisualization.c"
 				>
 			</File>
+			<File
+				RelativePath=".\test.c"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Í·ÎÄ¼þ"
