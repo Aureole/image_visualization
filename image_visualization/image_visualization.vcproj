@@ -172,11 +172,23 @@
 				>
 			</File>
 			<File
+				RelativePath=".\slhistogram_visualization.c"
+				>
+			</File>
+			<File
 				RelativePath=".\slvisualization.c"
 				>
 			</File>
 			<File
 				RelativePath=".\test.c"
+				>
+			</File>
+			<File
+				RelativePath=".\test2.c"
+				>
+			</File>
+			<File
+				RelativePath=".\test3.c"
 				>
 			</File>
 		</Filter>
@@ -185,6 +197,10 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\slhistogram_visualization.h"
+				>
+			</File>
 			<File
 				RelativePath=".\sltypes.h"
 				>

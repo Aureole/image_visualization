@@ -11,10 +11,18 @@ typedef __int16  sl_int16;
 typedef __int32  sl_int32;
 typedef __int64  sl_int64;
 
-#define sl_null  (void *)((sl_int32)0)
+#define sl_null  0
 
 typedef __int32  sl_bool;
 #define sl_true  (sl_bool)1
 #define sl_false (sl_bool)0
+
+typedef struct SlBound
+{
+	sl_int32 left;
+	sl_int32 right;
+	sl_int32 top;
+	sl_int32 bottom;
+}SlBound;
 
 #endif

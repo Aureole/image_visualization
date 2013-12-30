@@ -10,23 +10,23 @@ typedef unsigned int ubool;
 #define ufalse 0
 #define utrue 1
 
-uint his[3][100];
-const uint max_index = 100;
-const int base_x = 100;
-const int base_y = 300;
-const uint interval = 6;
-uint index[3];
-IplImage *show; 
-CvPoint org;
-uint choose = ufalse;
-CvPoint cur;
+static uint his[3][352];
+static const uint max_index = 352;
+static const int base_x = 100;
+static const int base_y = 300;
+static const uint interval = 2;
+static uint index[3];
+static IplImage *show; 
+static CvPoint org;
+static uint choose = ufalse;
+static CvPoint cur;
 
-void CreateHis()
+static void CreateHis()
 {
-	show = cvCreateImage(cvSize(800, 400), 8, 3);
+	show = cvCreateImage(cvSize(900, 400), 8, 3);
 }
 
-void cvMouseMoveCallback(int mouseEvent,int x,int y,int flags,void* param)
+static void cvMouseMoveCallback(int mouseEvent,int x,int y,int flags,void* param)
 {
 	switch(mouseEvent)
 	{
@@ -38,36 +38,7 @@ void cvMouseMoveCallback(int mouseEvent,int x,int y,int flags,void* param)
 	return;
 }
 
-/*
-float entropy()
-{
-	float entro[256];
-	int i;
-	int n;
-	float result = 0;;
-	for(i = 0; i < 256; i++)
-	{
-		entro[i] = 0;
-	}
-
-	for(i = 0; i < index; i++)
-	{
-		entro[his[n][i] / 1] += 1;	
-	}
-	for(i = 0; i < 256; i++)
-	{
-		if(entro[i] == 0)
-		{
-			continue;
-		}
-		entro[i] /= index;
-		result -= entro[i] * log(entro[i]) / log(2);
-	}
-
-	return result;
-}*/
-
-void ShowHis(int n, CvScalar color)
+static void ShowHis(int n, CvScalar color)
 {
 	uint i;
 	char text[256];
@@ -133,9 +104,9 @@ void ShowHis(int n, CvScalar color)
 	cvWaitKey(1);
 }
 
-CvScalar colors[3] = {{255, 0, 0}, {0, 255, 0}, {0, 0, 255}};
+static CvScalar colors[3] = {{255, 0, 0}, {0, 255, 0}, {0, 0, 255}};
 
-void ShowAllHis()
+static void ShowAllHis()
 {
 	uint i;
 	int n;
@@ -178,7 +149,7 @@ void ShowAllHis()
 }
 
 
-void ResetHis()
+static void ResetHis()
 {
 	index[0] = 0;
 	index[1] = 0;
@@ -188,7 +159,7 @@ void ResetHis()
 	memset(his[2], 0, sizeof(uint) * max_index);
 }
 
-void SetHisNext(uint value, int n)
+static void SetHisNext(uint value, int n)
 {
 	if(index[n] != max_index)
 	{
@@ -202,7 +173,7 @@ void SetHisNext(uint value, int n)
 	}
 }
 
-void cvMouseCallback(int mouseEvent,int x,int y,int flags,void* param)
+static void cvMouseCallback(int mouseEvent,int x,int y,int flags,void* param)
 {
 	switch(mouseEvent)
 	{
@@ -217,14 +188,14 @@ void cvMouseCallback(int mouseEvent,int x,int y,int flags,void* param)
 }
 
 
-int main1()
+int main2()
 {
 	IplImage *img, *image;
 	uint value;
-	uint i;
+	uint i, j, k;
 	uint wait_time = 1;
 	int key;
-	CvCapture *cap = cvCaptureFromFile("D:/fire16.avi");
+	CvCapture *cap = cvCaptureFromFile("D:/forest2.avi");
 	if(cap == NULL)
 	{
 		return -1;
@@ -278,13 +249,28 @@ int main1()
 
 		if(choose)
 		{
-			i = (img->height - org.y) * img->widthStep + org.x * 3;
-			value = (uchar)img->imageData[i];
-			SetHisNext(value, 0);
-			value = (uchar)img->imageData[i + 1];
-			SetHisNext(value, 1);
-			value = (uchar)img->imageData[i + 2];
-			SetHisNext(value, 2);
+			ResetHis();
+			/*j = (img->height - org.y) * img->widthStep;
+			for(i = 0; i < img->width; i++)
+			{
+				value = (uchar)img->imageData[j + i * 3];
+				SetHisNext(value, 0);
+				value = (uchar)img->imageData[j + i * 3 + 1];
+				SetHisNext(value, 1);
+				value = (uchar)img->imageData[j + i * 3 + 2];
+				SetHisNext(value, 2);
+			}*/
+
+			j = org.x;
+			for(i = 0; i < img->height; i++)
+			{
+				value = (uchar)img->imageData[i * img->widthStep + j * 3];
+				SetHisNext(value, 0);
+				value = (uchar)img->imageData[i * img->widthStep + j * 3 + 1];
+				SetHisNext(value, 1);
+				value = (uchar)img->imageData[i * img->widthStep + j * 3 + 2];
+				SetHisNext(value, 2);
+			}
 			ShowAllHis();
 		}
 	}
